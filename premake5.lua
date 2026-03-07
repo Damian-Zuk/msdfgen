@@ -2,10 +2,10 @@ project "freetype"
 	location "freetype"
 	kind "StaticLib"
 	language "C"
-    staticruntime "off"
+  	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	objdir ("obj/" .. outputdir .. "/%{prj.name}")
 
 	files
 	{
@@ -72,45 +72,6 @@ project "freetype"
 	filter "system:windows"
 		systemversion "latest"
 
-	filter "system:macosx"
-		buildoptions { "-include CoreFoundation/CFBase.h" }
-
-	filter "configurations:Debug"
-		runtime "Debug"
-		symbols "on"
-
-	filter "configurations:Release"
-		runtime "Release"
-		optimize "on"
-
-	filter "configurations:Dist"
-		runtime "Release"
-		optimize "on"
-        symbols "off"
-
-project "tinyxml2"
-	kind "StaticLib"
-	language "C++"
-	cppdialect "C++17"
-    staticruntime "off"
-
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	files
-	{
-		"lib/tinyxml2.cpp",
-		"include/tinyxml2.h"
-	}
-
-	includedirs
-	{
-		"include"
-	}
-
-	filter "system:windows"
-		systemversion "latest"
-
 	filter "configurations:Debug"
 		runtime "Debug"
 		symbols "on"
@@ -128,7 +89,7 @@ project "msdfgen"
 	kind "StaticLib"
 	language "C++"
 	cppdialect "C++17"
-    staticruntime "off"
+  	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -141,8 +102,7 @@ project "msdfgen"
 		"ext/**.h",
 		"ext/**.hpp",
 		"ext/**.cpp",
-		-- tinyxml2 has been outlined as a separate dependency declaration.
-		"lib/lodepng.cpp",
+		"lib/**.cpp",
 		"include/**.h"
 	}
 
@@ -159,8 +119,7 @@ project "msdfgen"
 
 	links
 	{
-		"freetype",
-		"tinyxml2"
+		"freetype"
 	}
 
 	filter "system:windows"
